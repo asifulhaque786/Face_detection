@@ -1,0 +1,34 @@
+import cv2,time
+#importing the time and open cv module
+vidio=cv2.VideoCapture(0)
+#setting my default laptop camera for image capturing
+a=1
+#initilising the loop
+#below is the loop to capture frames as to make a video out of it
+while True:
+    a=a+1
+    check,frame=vidio.read() #return boolean true if image is captured
+    print(frame)
+
+    cascade111 = cv2.CascadeClassifier("C:\\Users\\asifu\\PycharmProjects\\untitled100000000\\venv\\haarcascade_frontalface_default.xml")
+    #making cascade object contaning the file for face recognition
+    faces=cascade111.detectMultiScale(frame, scaleFactor=1.05,minNeighbors=3)
+    #detecting the coordinates of face
+    #lesser the scale factor greater the accuracy
+    for x,y,w,h in faces:
+       frame =cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+        #using the detected coordinates to draw a rectangle box
+    cascade111 = cv2.CascadeClassifier(
+        "C:\\Users\\asifu\\PycharmProjects\\untitled100000000\\venv\\haarcascade_eye.xml")
+    faces = cascade111.detectMultiScale(frame, scaleFactor=1.05, minNeighbors=3)
+    for x, y, w, h in faces:
+        frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0,0,255), 1)
+        cv2.imshow("asif's window",frame)
+    print(frame)
+    print(type(frame))
+    key =cv2.waitKey(1)
+    if key==ord('l'):#on  pressing l the camera window closes
+        break
+vidio.release()
+cv2.destroyAllWindows()
+#destroy the window on the basis of waitkey factor
